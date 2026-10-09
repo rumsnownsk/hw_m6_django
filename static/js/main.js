@@ -151,7 +151,7 @@ $(function () {
     });
 
     topBtn.click(function () {
-        $('html, body').animate({ scrollTop: 0 }, 500);
+        $('html, body').animate({scrollTop: 0}, 500);
         return false;
     });
 
@@ -208,6 +208,6 @@ if (!getCookie('allowCookie')) {
 
 document.querySelector('#allow-cookie').addEventListener('click', (e) => {
     e.preventDefault();
-    setCookie('allowCookie', 1, { 'max-age': 3600 * 24 * 365 });
+    setCookie('allowCookie', 1, {'max-age': 3600 * 24 * 365});
     offcanvasCookie.hide();
 });
