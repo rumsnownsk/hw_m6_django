@@ -1,7 +1,22 @@
+from django.db.models import Model
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-from catalog.models import Product
+from catalog.models import Product, Category
+
+
+def index(request, slug=None):
+    if slug:
+        category = get_object_or_404(Category, slug=slug)
+        products = category.products.all()
+    else:
+        products = Product.objects.all()
+        category = 'Все товары:'
+    return render(request, 'main.html', {
+        'category': category,
+        'products': products,
+        'all_products': True if not slug else False
+    })
 
 
 def contacts(request):
@@ -14,10 +29,6 @@ def contacts(request):
     return render(request, 'contacts.html')
 
 
-def home(request):
-    last_five_products = Product.objects.order_by('-created_at', '-id')[:5]
-    for p in last_five_products:
-        print(p)
-    return render(request, 'home.html', {
-        'last_five_products': last_five_products
-    })
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'product.html', {'product':product})
