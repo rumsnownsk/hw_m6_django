@@ -4,6 +4,8 @@ from django.shortcuts import render
 from catalog.models import Product
 
 
+
+
 def contacts(request):
     if request.method == "POST":
         name = request.POST.get('name')
