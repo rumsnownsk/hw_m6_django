@@ -6,7 +6,7 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='Наименование', help_text='Введите название Категории',
                             db_index=True)
-    slug = models.SlugField(blank=True, verbose_name='URL-идентификатор', help_text='Автоматически заполняется из названия')
+    slug = models.SlugField(blank=True, verbose_name='slug', help_text='Автоматически заполняется из названия')
 
     description = models.TextField(verbose_name='Описание', help_text='Описание Категории')
 

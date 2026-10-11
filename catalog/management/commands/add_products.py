@@ -12,7 +12,7 @@ class Command(BaseCommand):
         Category.objects.all().delete()
 
         # загрузка данных из файла фикстур
-        call_command('loaddata', 'catalog.json')
+        call_command('loaddata', 'catalog_data.json')
 
         # загрузка данных, типа, в ручную
         category, _ = Category.objects.get_or_create(name='Стройматериалы', description='Они нужны чтобы строить будущее')

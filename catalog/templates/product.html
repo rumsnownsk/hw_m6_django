@@ -1,0 +1,694 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="main category-page mt-5">
+    <div class="container">
+        <!--<nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
+                <li class="breadcrumb-item"><a href="category.html">Электронные замки</a></li>
+                <li class="breadcrumb-item"><a href="category.html">Замки для дома</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Какой-то замок</li>
+            </ol>
+        </nav>-->
+        <a href="{% url 'catalog:main' %}" class="btn btn-primary main-all-ategories">На главную</a>
+
+    </div>
+
+    <div class="container mt-4 mb-4">
+
+        <div class="row">
+
+            <div class="col-lg-6">
+
+                <div class="swiper swiper-gallery">
+                    <div class="swiper-wrapper">
+
+                        <div class="swiper-slide">
+                            {% if product.photo %}
+                            <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="img-fluid w-100">
+                            {% else %}
+                            <img src="{% static 'images/no-photo.jpeg' %}" alt="{{ product.name }}"
+                                 class="img-fluid w-100">
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+<!--
+                <div class="swiper swiper-thumbs">
+                    <div class="swiper-wrapper">
+
+                        <div class="swiper-slide">
+                            <img src="assets/img/products/1.jpg" alt="">
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="assets/img/products/2.jpg" alt="">
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="assets/img/products/3.jpg" alt="">
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="assets/img/products/4.jpg" alt="">
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="assets/img/products/5.jpg" alt="">
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="assets/img/products/6.jpg" alt="">
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="assets/img/products/7.jpg" alt="">
+                        </div>
+
+                    </div>
+                </div>
+-->
+
+            </div>
+
+            <div class="col-lg-6 product-main-desc">
+
+                <div class="product-main-desc-rating">
+                    <span class="product-sku">Категория: {{product.category.name}}</span>
+                    <span class="product-rating">
+                                <i class="fa-solid fa-star active"></i>
+                                <i class="fa-solid fa-star active"></i>
+                                <i class="fa-solid fa-star active"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </span>
+                    <a href="#" class="product-review-cnt">(12) отзывов</a>
+                </div>
+
+                <h1>{{product.name}}</h1>
+
+                <div class="product-main-desc-color">
+                    <p class="fs-5">Описание: {{product.description|truncatechars:100}}</p>
+
+<!--
+                    <div class="choose-color">
+
+                        <label class="color-option">
+                            <input type="radio" name="color" value="white">
+                            <span class="color-switch color-white">
+                                        <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+                                    </span>
+                        </label>
+
+                        <label class="color-option">
+                            <input type="radio" name="color" value="black">
+                            <span class="color-switch color-black">
+                                        <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+                                    </span>
+                        </label>
+
+                        <label class="color-option">
+                            <input type="radio" name="color" value="yellow">
+                            <span class="color-switch color-yellow">
+                                        <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+                                    </span>
+                        </label>
+
+                    </div>
+-->
+                </div>
+                <div class="product-main-desc-color">
+                    <p class="fs-5">Начало продажи: {{product.created_at|date:"d M Y"}}</p>
+                </div>
+                <div class="product-main-desc-price">
+                    {{product.price}} ₽
+                    <del>37 000 ₽</del>
+                </div>
+
+                <div class="product-main-desc-add2cart">
+                    <div class="input-group">
+                        <input type="number" class="form-control" value="1" min="1">
+                        <button class="btn btn-primary">Купить</button>
+                    </div>
+
+                    <span class="product-main-desc-add2wishlist">
+                                <i class="fa-regular fa-heart"></i> В избранное
+                            </span>
+                </div>
+
+                <div class="accordion product-main-desc-accordion" id="product-main-desc-accordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse-payment" aria-expanded="true"
+                                    aria-controls="collapse-payment">
+                                Оплата
+                            </button>
+                        </h2>
+                        <div id="collapse-payment" class="accordion-collapse collapse show"
+                             data-bs-parent="#product-main-desc-accordion">
+                            <div class="accordion-body">
+                                Оплата при получении товара, Картой онлайн, Google Pay, Акционная оплата картой
+                                Visa, Безналичными для юридических лиц, Безналичными для физических лиц, Apple
+                                Pay, PrivatPay, Оплата картой в отделении
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse-delivery" aria-expanded="false"
+                                    aria-controls="collapse-delivery">
+                                Монтаж и доставка
+                            </button>
+                        </h2>
+                        <div id="collapse-delivery" class="accordion-collapse collapse"
+                             data-bs-parent="#product-main-desc-accordion">
+                            <div class="accordion-body">
+                                Монтаж и доставка. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Minus quod ullam expedita reiciendis quasi impedit. Culpa, eaque omnis excepturi
+                                quas non vitae dolore est hic optio quo eum, quasi vero!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse-guarantees" aria-expanded="false"
+                                    aria-controls="collapse-guarantees">
+                                Гарантии и выгода
+                            </button>
+                        </h2>
+                        <div id="collapse-guarantees" class="accordion-collapse collapse"
+                             data-bs-parent="#product-main-desc-accordion">
+                            <div class="accordion-body">
+                                Гарантии и выгода. Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius
+                                a dicta quidem. Error, ipsa tempora similique vitae tempore dolores illo atque
+                                quas laudantium sint animi a, quia temporibus laboriosam debitis.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--  <div class="row">
+              <div class="col-12">
+
+                  <ul class="nav nav-tabs product-desc-tabs" id="product-desc-tabs" role=" tablist">
+                      <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="features-tab" data-bs-toggle="tab"
+                                  data-bs-target="#features-tab-pane" type="button" role="tab"
+                                  aria-controls="features-tab-pane" aria-selected="true">Характеристики
+                          </button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="description-tab" data-bs-toggle="tab"
+                                  data-bs-target="#description-tab-pane" type="button" role="tab"
+                                  aria-controls="description-tab-pane" aria-selected="false">Описание
+                          </button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="reviews-tab" data-bs-toggle="tab"
+                                  data-bs-target="#reviews-tab-pane" type="button" role="tab"
+                                  aria-controls="reviews-tab-pane" aria-selected="false">Отзывы
+                          </button>
+                      </li>
+                  </ul>
+
+                  <div class="tab-content product-desc-tabs-content" id="product-desc-tabs-content">
+
+                      <div class="tab-pane fade show active" id="features-tab-pane" role="tabpanel"
+                           aria-labelledby="features-tab" tabindex="0">
+                          <div class="table-responsive">
+                              <table class="table table-striped table-hover">
+                                  <tbody>
+                                  <tr>
+                                      <th>Память на количество карт</th>
+                                      <td>2033</td>
+                                  </tr>
+                                  <tr>
+                                      <th>Приложение</th>
+                                      <td>Нет</td>
+                                  </tr>
+                                  <tr>
+                                      <th>Материал</th>
+                                      <td>Сталь, силиконовые вставки</td>
+                                  </tr>
+                                  <tr>
+                                      <th>Цвет</th>
+                                      <td>Черный, хром</td>
+                                  </tr>
+                                  <tr>
+                                      <th>Питание</th>
+                                      <td>DC 6V, 4 AAA</td>
+                                  </tr>
+                                  <tr>
+                                      <th>Разблокировка</th>
+                                      <td>2033</td>
+                                  </tr>
+                                  <tr>
+                                      <th>Память на количество карт</th>
+                                      <td>Пин-код, карта или браслет Mifaire, ключ, приложение, отпечаток
+                                          пальца
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <th>Тип двери</th>
+                                      <td>Деревянная, металлическая</td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="description-tab-pane" role="tabpanel"
+                           aria-labelledby="description-tab" tabindex="0">
+                          <div class="category-description clearfix">
+                              <h2>Lorem ipsum dolor sit amet.</h2>
+                              <p><img src="assets/img/categories/category-desc-1.jpg" class="note-float-right"
+                                      style="width: 25%;" alt=""></p>
+                              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor maxime illo rem
+                                  accusamus nulla
+                                  veritatis, quae assumenda aspernatur quo aperiam. Tenetur itaque dolorem
+                                  distinctio architecto
+                                  voluptatum nobis earum similique esse!</p>
+                              <ul>
+                                  <li>Межкомнатую дверь</li>
+                                  <li>Деревянную дверь</li>
+                                  <li>Межкомнатую дверь</li>
+                                  <li>Деревянную дверь</li>
+                              </ul>
+                              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam perferendis
+                                  labore, enim, aut
+                                  corporis assumenda veniam natus similique dolore repellat explicabo in corrupti
+                                  reprehenderit,
+                                  nemo tempore ipsam totam a rerum.</p>
+                              <p>Eaque id cumque optio fugit amet. Ullam fugit omnis animi voluptatem quos,
+                                  temporibus obcaecati
+                                  explicabo minima laboriosam ipsum. Voluptates possimus, incidunt officia
+                                  suscipit quibusdam
+                                  minus cum aliquid quis perferendis exercitationem?</p>
+
+                              <h2>Lorem ipsum dolor sit amet.</h2>
+                              <p><img src="assets/img/categories/category-desc-2.jpg" class="note-float-left"
+                                      style="width: 25%;" alt=""></p>
+                              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae vitae accusamus
+                                  quasi quos
+                                  laboriosam blanditiis, soluta, labore voluptates, ad magni omnis facilis amet
+                                  illo voluptatum
+                                  accusantium error voluptatibus eveniet inventore.</p>
+                              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi velit praesentium
+                                  repudiandae a
+                                  quam, qui assumenda soluta dolores officiis tempora cum, consectetur optio? Id
+                                  adipisci
+                                  necessitatibus, aliquid nihil minus laborum.</p>
+                              <p>Similique, culpa veniam ullam voluptas maiores, aliquid repellendus ipsum
+                                  suscipit eligendi enim
+                                  natus iusto dolore deleniti earum cum labore accusantium quas numquam quo eos
+                                  saepe fugiat,
+                                  blanditiis rerum quisquam! Placeat!</p>
+                          </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="reviews-tab-pane" role="tabpanel"
+                           aria-labelledby="reviews-tab" tabindex="0">
+
+                          <div class="row">
+
+                              <div class="col-lg-4 order-lg-2 mb-lg-0 mb-4">
+
+                                  <button class="btn btn-primary d-block d-lg-none w-100" type="button"
+                                          data-bs-toggle="collapse" data-bs-target="#reply-form" aria-expanded="false"
+                                          aria-controls="reply-form">
+                                      Оставить отзыв
+                                  </button>
+
+                                  <div class="reply-form collapse" id="reply-form">
+
+                                      <form action="">
+
+                                          <div class="star-rating">
+                                              <p>Ваша оценка</p>
+                                              <input type="radio" id="star-5" name="rating" value="5">
+                                              <label for="star-5"></label>
+
+                                              <input type="radio" id="star-4" name="rating" value="4">
+                                              <label for="star-4"></label>
+
+                                              <input type="radio" id="star-3" name="rating" value="3">
+                                              <label for="star-3"></label>
+
+                                              <input type="radio" id="star-2" name="rating" value="2">
+                                              <label for="star-2"></label>
+
+                                              <input type="radio" id="star-1" name="rating" value="1">
+                                              <label for="star-1"></label>
+                                          </div>
+
+                                          <div class="mb-3">
+                                              <label for="name" class="form-label">Ваше имя</label>
+                                              <input type="text" class="form-control" id="name"
+                                                     placeholder="Введите Ваше имя">
+                                          </div>
+
+                                          <div class="mb-3">
+                                              <label for="email" class="form-label">Ваш Email</label>
+                                              <input type="email" class="form-control" id="email"
+                                                     placeholder="Введите Ваш Email">
+                                          </div>
+
+                                          <div class="mb-3">
+                                              <label for="comment" class="form-label">Ваш комментарий</label>
+                                              <textarea class="form-control" id="comment"
+                                                        placeholder="Введите Ваш комментарий" rows="4"
+                                                        style="resize: none;"></textarea>
+                                          </div>
+
+                                          <button type="submit" class="btn btn-primary w-100">Оставить
+                                              отзыв
+                                          </button>
+
+                                      </form>
+
+                                  </div>
+
+                              </div>
+
+                              <div class="col-lg-8 reviews order-lg-1">
+
+                                  <div class="card review-card">
+                                      <div class="card-header">
+                                          <div class="review-author">Андрей Попенко</div>
+                                          <div class="review-created">20 августа, 2021</div>
+                                          <div class="review-rating">
+                                                      <span class="product-rating">
+                                                          <i class="fa-solid fa-star active"></i>
+                                                          <i class="fa-solid fa-star active"></i>
+                                                          <i class="fa-solid fa-star active"></i>
+                                                          <i class="fa-solid fa-star"></i>
+                                                          <i class="fa-solid fa-star"></i>
+                                                      </span>
+                                          </div>
+                                      </div>
+                                      <div class="card-body">
+                                          <p class="card-text">Et feugiat eu scelerisque nulla mattis. At et enim
+                                              dui mauris. Nisi, hendrerit dictum consequat tristique sed. Est
+                                              ultrices etiam in lorem nulla a.Et feugiat eu scelerisque nulla
+                                              mattis. At et enim dui mauris. Nisi</p>
+                                          <div>
+                                              <a href="#" class="review-card-reply">
+                                                  <i class="fa-regular fa-share-from-square"></i>
+                                                  Ответить
+                                              </a>
+                                              <a href="#" class="review-card-answers">
+                                                  <i class="fa-regular fa-message"></i>
+                                                  1 комментарий
+                                              </a>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="card review-card">
+                                      <div class="card-header">
+                                          <div class="review-author">Андрей Попенко</div>
+                                          <div class="review-created">20 августа, 2021</div>
+                                          <div class="review-rating">
+                                                      <span class="product-rating">
+                                                          <i class="fa-solid fa-star active"></i>
+                                                          <i class="fa-solid fa-star active"></i>
+                                                          <i class="fa-solid fa-star active"></i>
+                                                          <i class="fa-solid fa-star"></i>
+                                                          <i class="fa-solid fa-star"></i>
+                                                      </span>
+                                          </div>
+                                      </div>
+                                      <div class="card-body">
+                                          <p class="card-text">Et feugiat eu scelerisque nulla mattis. At et enim
+                                              dui mauris. Nisi, hendrerit dictum consequat tristique sed. Est
+                                              ultrices etiam in lorem nulla a.Et feugiat eu scelerisque nulla
+                                              mattis. At et enim dui mauris. Nisi</p>
+                                          <div>
+                                              <a href="#" class="review-card-reply">
+                                                  <i class="fa-regular fa-share-from-square"></i>
+                                                  Ответить
+                                              </a>
+                                              <a href="#" class="review-card-answers">
+                                                  <i class="fa-regular fa-message"></i>
+                                                  1 комментарий
+                                              </a>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="card review-card">
+                                      <div class="card-header">
+                                          <div class="review-author">Андрей Попенко</div>
+                                          <div class="review-created">20 августа, 2021</div>
+                                          <div class="review-rating">
+                                                      <span class="product-rating">
+                                                          <i class="fa-solid fa-star active"></i>
+                                                          <i class="fa-solid fa-star active"></i>
+                                                          <i class="fa-solid fa-star active"></i>
+                                                          <i class="fa-solid fa-star"></i>
+                                                          <i class="fa-solid fa-star"></i>
+                                                      </span>
+                                          </div>
+                                      </div>
+                                      <div class="card-body">
+                                          <p class="card-text">Et feugiat eu scelerisque nulla mattis. At et enim
+                                              dui mauris. Nisi, hendrerit dictum consequat tristique sed. Est
+                                              ultrices etiam in lorem nulla a.Et feugiat eu scelerisque nulla
+                                              mattis. At et enim dui mauris. Nisi</p>
+                                          <div>
+                                              <a href="#" class="review-card-reply">
+                                                  <i class="fa-regular fa-share-from-square"></i>
+                                                  Ответить
+                                              </a>
+                                              <a href="#" class="review-card-answers">
+                                                  <i class="fa-regular fa-message"></i>
+                                                  1 комментарий
+                                              </a>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <p class="text-center">
+                                      <a href="#" class="reply-load-more">
+                                          <i class="fa-solid fa-rotate-right"></i>
+                                          Показать еще
+                                      </a>
+                                  </p>
+
+                              </div>
+
+                          </div>
+
+                      </div>
+
+                  </div>
+
+              </div>
+          </div>-->
+
+    </div>
+
+    <!--
+        <section class="main-our-products">
+
+            <div class="container">
+
+                <div class="main-our-products-top">
+                    <h2>Вы недавно просмотрели</h2>
+
+                    <div class="slider-btn-wrap">
+                        <span class="prev-btn"><i class="fa-solid fa-chevron-left"></i></span>
+                        <span class="next-btn"><i class="fa-solid fa-chevron-right"></i></span>
+                    </div>
+                </div>
+
+                <div class="owl-carousel owl-theme">
+
+                    <div class="product-card item">
+                        <div class="product-card-offer">
+                            <div class="in-stock">
+                                <i class="fa-solid fa-check"></i>
+                                <span>В наличии</span>
+                            </div>
+                            <div class="in-sale">sale</div>
+                        </div>
+                        <div class="product-card-thumb">
+                            <a href="#"><img src="assets/img/categories/1.png" alt=""></a>
+                        </div>
+                        <div class="product-card-details">
+                            <h4 class="product-card-title"><a href="#">Дверной Замок Golden Soft для отеля</a></h4>
+                            <div class="product-card-details-bottom">
+                                <div class="product-card-price">
+                                    33 000₽
+                                    <del>37 000₽</del>
+                                </div>
+                                <div class="product-card-btns">
+                                    <a href="#" class="btn btn-outline-secondary add2cart"><i
+                                            class="fa-solid fa-cart-shopping"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card item">
+                        <div class="product-card-offer">
+                            <div class="not-in-stock">
+                                <i class="fa-solid fa-check"></i>
+                                <span>Нет наличии</span>
+                            </div>
+                        </div>
+                        <div class="product-card-thumb">
+                            <a href="#"><img src="assets/img/categories/6.png" alt=""></a>
+                        </div>
+                        <div class="product-card-details">
+                            <h4 class="product-card-title"><a href="#">Дверной Замок Golden Soft для отеля, для
+                                офиса,
+                                для квартиры и вообще для всего</a></h4>
+                            <div class="product-card-details-bottom">
+                                <div class="product-card-price">
+                                    33 000₽
+                                    <del>37 000₽</del>
+                                </div>
+                                <div class="product-card-btns">
+                                    <a href="#" class="btn btn-outline-secondary add2cart"><i
+                                            class="fa-solid fa-cart-shopping"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card item">
+                        <div class="product-card-offer">
+                            <div class="in-stock">
+                                <i class="fa-solid fa-check"></i>
+                                <span>В наличии</span>
+                            </div>
+                        </div>
+                        <div class="product-card-thumb">
+                            <a href="#"><img src="assets/img/categories/3.png" alt=""></a>
+                        </div>
+                        <div class="product-card-details">
+                            <h4 class="product-card-title"><a href="#">Дверной Замок Golden Soft для отеля, для
+                                офиса,
+                                для квартиры и вообще для всего</a></h4>
+                            <div class="product-card-details-bottom">
+                                <div class="product-card-price">
+                                    33 000₽
+                                    <del>37 000₽</del>
+                                </div>
+                                <div class="product-card-btns">
+                                    <a href="#" class="btn btn-outline-secondary add2cart"><i
+                                            class="fa-solid fa-cart-shopping"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card item">
+                        <div class="product-card-offer">
+                            <div class="in-stock">
+                                <i class="fa-solid fa-check"></i>
+                                <span>В наличии</span>
+                            </div>
+                            <div class="in-sale">sale</div>
+                        </div>
+                        <div class="product-card-thumb">
+                            <a href="#"><img src="assets/img/categories/4.png" alt=""></a>
+                        </div>
+                        <div class="product-card-details">
+                            <h4 class="product-card-title"><a href="#">Дверной Замок Golden Soft для отеля, для
+                                офиса,
+                                для квартиры и вообще для всего</a></h4>
+                            <div class="product-card-details-bottom">
+                                <div class="product-card-price">
+                                    33 000₽
+                                    <del>37 000₽</del>
+                                </div>
+                                <div class="product-card-btns">
+                                    <a href="#" class="btn btn-outline-secondary add2cart"><i
+                                            class="fa-solid fa-cart-shopping"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card item">
+                        <div class="product-card-offer">
+                            <div class="in-stock">
+                                <i class="fa-solid fa-check"></i>
+                                <span>В наличии</span>
+                            </div>
+                            <div class="in-sale">sale</div>
+                        </div>
+                        <div class="product-card-thumb">
+                            <a href="#"><img src="assets/img/categories/5.png" alt=""></a>
+                        </div>
+                        <div class="product-card-details">
+                            <h4 class="product-card-title"><a href="#">Дверной Замок Golden Soft для отеля, для
+                                офиса,
+                                для квартиры и вообще для всего</a></h4>
+                            <div class="product-card-details-bottom">
+                                <div class="product-card-price">
+                                    33 000₽
+                                    <del>37 000₽</del>
+                                </div>
+                                <div class="product-card-btns">
+                                    <a href="#" class="btn btn-outline-secondary add2cart"><i
+                                            class="fa-solid fa-cart-shopping"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card item">
+                        <div class="product-card-offer">
+                            <div class="in-stock">
+                                <i class="fa-solid fa-check"></i>
+                                <span>В наличии</span>
+                            </div>
+                            <div class="in-sale">sale</div>
+                        </div>
+                        <div class="product-card-thumb">
+                            <a href="#"><img src="assets/img/categories/7.png" alt=""></a>
+                        </div>
+                        <div class="product-card-details">
+                            <h4 class="product-card-title"><a href="#">Дверной Замок Golden Soft для отеля, для
+                                офиса,
+                                для квартиры и вообще для всего</a></h4>
+                            <div class="product-card-details-bottom">
+                                <div class="product-card-price">
+                                    33 000₽
+                                    <del>37 000₽</del>
+                                </div>
+                                <div class="product-card-btns">
+                                    <a href="#" class="btn btn-outline-secondary add2cart"><i
+                                            class="fa-solid fa-cart-shopping"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+    -->
+
+</main>
+
+{% endblock %}

@@ -725,6 +725,18 @@ files = [
 ]
 
 [[package]]
+name = "unidecode"
+version = "1.4.0"
+description = "ASCII transliterations of Unicode text"
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "Unidecode-1.4.0-py3-none-any.whl", hash = "sha256:c3c7606c27503ad8d501270406e345ddb480a7b5f38827eafe4fa82a137f0021"},
+    {file = "Unidecode-1.4.0.tar.gz", hash = "sha256:ce35985008338b676573023acc382d62c264f307c8f7963733405add37ea2b23"},
+]
+
+[[package]]
 name = "wcwidth"
 version = "0.9.1"
 description = "Measures the displayed width of unicode strings in a terminal"
@@ -758,4 +770,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "9f61c3193f1c0d56885892aebf7ba4ed0106fdf7443a0f68aad8286568b37c7a"
+content-hash = "41b06eb07a6aa78d1a4b42bb7f1389ec1c281615bf792a008564f899f9d54a25"
