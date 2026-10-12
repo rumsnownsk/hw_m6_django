@@ -1,9 +1,10 @@
-from django.db.models import Model
+from django.db.models import Model, F
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
 from catalog.models import Product, Category
-from django.views.generic import ListView, DetailView
+from catalog.forms import ContactForm
+from django.views.generic import ListView, DetailView, TemplateView, FormView
 
 
 class ProductListView(ListView):
@@ -37,17 +38,29 @@ class ProductDetailView(DetailView):
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'  # в шаблоне будет переменная product, а не object
 
+    def get_object(self, queryset = None):
+        obj = super().get_object(queryset=queryset)
 
-def contacts(request):
-    if request.method == "POST":
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-        return HttpResponse(f"Спасибо {name}! Сообщение успешно отправлено. \n <a href='/'>Каталог</a>")
+        # Атомарно увеличиваем views в базе: views = views + 1
+        Product.objects.filter(pk=obj.pk).update(views=F('views') + 1)
 
-    return render(request, 'contacts.html')
+        # Возвращаем объект для шаблона.
+        # Важно: после update() значение в obj не обновится автоматически,
+        # поэтому лучше взять свежий объект из базы.
+        return Product.objects.get(pk=obj.pk)
 
+class ContactView(FormView):
+    template_name = 'catalog/contacts.html'
+    form_class = ContactForm
+    success_url = '/'  # куда редиректить после отправки
 
-# def product_detail(request, pk):
-#     product = get_object_or_404(Product, pk=pk)
-#     return render(request, 'product.html', {'product':product})
+    def form_valid(self, form):
+
+        name = form.cleaned_data['name']
+        phone = form.cleaned_data['phone']
+        message = form.cleaned_data.get('message', '')
+
+        # Тут можно сохранить в БД или отправить на почту
+        # Например: Contact.objects.create(name=name, phone=phone, message=message)
+
+        return super().form_valid(form)

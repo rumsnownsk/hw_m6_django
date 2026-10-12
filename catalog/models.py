@@ -33,6 +33,9 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # добавляем поле для счётчика
+    views = models.PositiveIntegerField(default=0)
+
     def __str__(self):
         return f"<{self.name}> из категории < {self.category} > "
 

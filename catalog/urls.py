@@ -15,6 +15,9 @@ urlpatterns = [
     # Главная: все товары
     path('', ProductListView.as_view(), name='products_list'),
 
+    # Страница Контакты
+    path('contacts/', views.ContactView.as_view(), name='contacts'),
+
     # Категория: товары по слагу
     path('<slug:slug>/', views.ProductListView.as_view(), name='products_list_by_category'),
 
