@@ -21,8 +21,9 @@ from django.urls import path, include
 from config import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('catalog.urls', namespace='catalog'))
+    path('admin/', admin.site.urls, name='admin'),
+    path('catalog/', include('catalog.urls', namespace='catalog')),
+    path('blog/', include('studyBlog.urls', namespace='studyBlog'))
 ]
 
 if settings.DEBUG:

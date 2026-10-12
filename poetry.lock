@@ -660,6 +660,18 @@ files = [
 dev = ["black", "build", "mypy", "pytest", "pytest-cov", "setuptools", "tox", "twine", "wheel"]
 
 [[package]]
+name = "six"
+version = "1.17.0"
+description = "Python 2 and 3 compatibility utilities"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+groups = ["main"]
+files = [
+    {file = "six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"},
+    {file = "six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"},
+]
+
+[[package]]
 name = "sqlparse"
 version = "0.6.0"
 description = "A non-validating SQL parser."
@@ -710,6 +722,21 @@ files = [
 [package.extras]
 docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
 test = ["argcomplete (>=3.0.3) ; python_version < \"3.12\"", "argcomplete (>=3.5.2) ; python_version >= \"3.12\"", "mypy (>=2.0) ; implementation_name != \"pypy\"", "pre-commit", "pytest (>=7.0,<10.0)", "pytest-mock", "pytest-mypy-testing ; implementation_name != \"pypy\""]
+
+[[package]]
+name = "transliterate"
+version = "1.10.2"
+description = "Bi-directional transliterator for Python"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "transliterate-1.10.2-py2.py3-none-any.whl", hash = "sha256:010a5021bf6021689c4fade0985f3f7b3db1f2f16a48a09a56797f171c08ed42"},
+    {file = "transliterate-1.10.2.tar.gz", hash = "sha256:bc608e0d48e687db9c2b1d7ea7c381afe0d1849cad216087d8e03d8d06a57c85"},
+]
+
+[package.dependencies]
+six = ">=1.1.0"
 
 [[package]]
 name = "tzdata"
@@ -770,4 +797,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "41b06eb07a6aa78d1a4b42bb7f1389ec1c281615bf792a008564f899f9d54a25"
+content-hash = "f49fa09d7e1c1c7d7f2ea5bd149defac3ada1a96c995daed3f7d4d92cfcdba87"
