@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<article>
+  <h1>{{ post.title }}</h1>
+  {% if post.preview_image %}
+    <img src="{{ post.preview_image.url }}" alt="{{ post.title }}">
+  {% endif %}
+  <div>{{ post.content }}</div>
+  <small>Дата: {{ post.created_at }} | Просмотров: {{ post.views }}</small>
+</article>
+
+<p><a href="{% url 'studyBlog:post_list' %}">← Назад к списку</a></p>
+
+<!-- Ссылки на редактирование/удаление — только если ты авторизован как админ -->
+{% if user.is_staff %}
+  <p>
+    <a href="{% url 'studyBlog:post_update' post.pk %}">Редактировать</a> |
+    <a href="{% url 'studyBlog:post_delete' post.pk %}">Удалить</a>
+  </p>
+{% endif %}
+{% endblock %}
