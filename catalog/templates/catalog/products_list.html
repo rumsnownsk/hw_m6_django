@@ -1,0 +1,73 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main class="main">
+    <section class="main-categories">
+
+        <div class="container">
+
+            <h2>{{category}}</h2>
+
+            <div class="row row-gap-4">
+                {% for product in products %}
+                <div class="col-6">
+                    <div class="main-categories-card">
+                        <a href="{% url 'catalog:product_detail' product.pk %}">
+                            <div class="main-categories-card-thumb">
+                        {% if product.photo %}
+                            <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="img-fluid w-100">
+                        {% else %}
+                            <img src="{% static 'images/no-photo.jpeg' %}" alt="Нет фото" class="img-fluid w-100">
+                        {% endif %}
+                            </div>
+                        </a>
+
+                        <div class="main-categories-card-desc">
+                            <h3>{{product.name}}</h3>
+                            <p>{{product.description}}</p>
+                            <a href="{% url 'catalog:product_detail' pk=product.pk %}" class="btn btn-outline-dark">Перейти</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+
+            </div>
+
+        </div>
+    </section>
+    <section class="main-callback">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-8 offset-md-2">
+
+                    <h2>Мы Вам перезвоним</h2>
+                    <p class="text-center">Если у вас возникли какие-то вопросы или проблемы, заполните форму и
+                        мы Вам
+                        перезвоним.</p>
+
+                    <form>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Ваше имя">
+                            </div>
+
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control phone-mask" placeholder="Ваш телефон">
+                            </div>
+
+                            <div class="col-lg-4">
+                                <button class="btn btn-primary" type="submit">Отправить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
