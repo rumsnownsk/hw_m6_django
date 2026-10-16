@@ -31,8 +31,14 @@
                         Скидка 10% по промокоду "ZAMOK" на все заказы до 10.09
                     </div>
                     <div class="callback">
-                        <a href="#">Обратный звонок</a>
-                    </div>
+                        <!--                        <a href="#">Обратный звонок</a>-->
+                        <a class="btn btn-success d-flex align-items-center gap-3" href="{% url 'catalog:contacts' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                 viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 9h-4v4c0 .55-.45 1-1 1s-1-.45-1-1v-4H8c-.55 0-1-.45-1-1s.45-1 1-1h4V7c0-.55.45-1 1-1s1 .45 1 1v4h4c.55 0 1 .45 1 1s-.45 1-1 1z"/>
+                            </svg>
+                            Добавить продукт
+                        </a></div>
                 </div>
             </div>
         </div><!-- ./top-line -->
@@ -68,7 +74,7 @@
 <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'js/jquery.spincrement.min.js' %}"></script>
-<script src="{% static 'owlcarousel/owl.carousel.min.js' %}"></script>
+<!--<script src="{% static 'owlcarousel/owl.carousel.min.js' %}"></script>-->
 <script src="{% static 'js/jquery.maskedinput.min.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="{% static 'js/main.js' %}"></script>
