@@ -553,6 +553,16 @@ main.main {
     margin-top: 10px;
 }
 
+.main-categories-card-actions i {
+    font-size: 24px;
+}
+
+.main-categories-card-footer{
+    display: flex;
+    margin-top: 25px;
+    justify-content: space-between;
+}
+
 /* ==================Main Categories==================== */
 
 /* ==================Main Our Products==================== */

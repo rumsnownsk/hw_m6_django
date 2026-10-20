@@ -2,11 +2,13 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from catalog.models import Product, Category
+from catalog.forms import ProductForm
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'photo_tag', 'name', 'price', 'category')
+    # form = ProductForm
     list_filter = ('category',)
     search_fields = ('name', 'description')
 

@@ -1,0 +1,39 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main class="main">
+    <div class="container mt-5">
+        <a href="{% url 'catalog:products_list' %}" class="btn btn-primary main-all-ategories">На главную</a>
+    </div>
+    <div class="container mt-4">
+        <div class="row row-gap-4">
+            <div class="col-6">
+                {% if object %}
+                <h2>Редактирование продукта</h2>
+                {% else %}
+                <h2>Создание продукта</h2>
+                {% endif %}
+                <form class="row" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-body">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            {% if object %}
+                            Сохранить
+                            {% else %}
+                            Создать
+                            {% endif %}
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock %}

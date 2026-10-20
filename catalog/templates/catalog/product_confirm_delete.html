@@ -1,0 +1,37 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main class="main">
+    <div class="container mt-5">
+        <a href="{% url 'catalog:products_list' %}" class="btn btn-primary main-all-ategories">На главную</a>
+    </div>
+    <div class="container mt-4">
+        <div class="row row-gap-4">
+
+            <div class="col-6">
+                <h2>Удаление продукта </h2>
+                <p> {{ object }} </p>
+
+                <form class="row" method="post" enctype="multipart/form-data">
+
+                    <div class="card">
+                        <p>Действительно хотите удалить?</p>
+                        <div class="card-body">
+                            {% csrf_token %}
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            Удалить
+                        </button>
+                    </div>
+                    <a href="{% url 'catalog:products_list' %}" class="btn btn-primary" role="button">
+                        Отменить
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock %}
