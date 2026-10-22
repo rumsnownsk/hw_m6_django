@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+
+    'users',
     'catalog',
     'studyBlog'
 ]
@@ -157,3 +159,20 @@ LOGGING = {
         'level': 'ERROR',
     },
 }
+
+AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {'min_length': 4},
+    },
+    # остальные валидаторы можно убрать или оставить по желанию
+]
+
+LOGIN_REDIRECT_URL = 'catalog:products_list'       # куда после login/
+LOGOUT_REDIRECT_URL = 'catalog:products_list'     # куда после logout/
+
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]

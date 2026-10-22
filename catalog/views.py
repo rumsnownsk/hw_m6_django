@@ -19,15 +19,15 @@ class ProductListView(ListView):
         # если приходит slug из get-запроса
         slug = self.kwargs.get('slug')
         if slug:
-            category = get_object_or_404(Category, slug=slug)
-            return category.products.all()
+            self.category = get_object_or_404(Category, slug=slug)
+            return self.category.products.all()
+        self.category = None
         return super().get_queryset()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        slug = self.kwargs.get('slug')
-        if slug:
-            context['category'] = get_object_or_404(Category, slug=slug)
+        if self.category:
+            context['category'] = self.category
             context['all_products'] = False
         else:
             context['category'] = 'Все товары'
@@ -66,7 +66,6 @@ class ProductUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('catalog:product_detail', kwargs={'pk': self.object.pk})
-
 
 
 class ProductDeleteView(DeleteView):
