@@ -1,3 +1,5 @@
+from django.contrib.auth import login, authenticate
+from django.core.mail import send_mail
 from django.shortcuts import render
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
@@ -5,13 +7,44 @@ from .forms import CustomUserCreationForm, CustomUserLoginForm
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
 
-# Create your views here.
+from django.conf import settings
+
 
 class RegisterView(CreateView):
     template_name = 'users/register.html'
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('catalog:products_list')
 
+    def form_valid(self, form):
+        user = form.save()
+
+        user_authenticated = authenticate(
+            request=self.request,
+            username=user.email,
+            password=form.cleaned_data['password1'],
+            backend='users.backends.EmailAuthBackend'
+        )
+
+        if user_authenticated is None:
+            return self.render_to_response(
+                self.get_context_data(form=form, error="Не удалось подтвердить пароль")
+            )
+        # 3. Теперь безопасно делаем login. Django знает, что этот юзер уже проверен твоим бэкендом.
+        login(self.request, user_authenticated)
+
+        # 4. Отправляем письмо
+        # self.send_welcome_email(user.email)
+
+        # return super().form_valid(form)
+        return redirect('catalog:products_list')
+
+    def send_welcome_email(self, user_email):
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'no-reply@hw-m6-django.local')
+
+        subject = 'Добро пожаловать в наш сервис'
+        message = 'Спасибо, что зарегистрировались в нашем сервисе!'
+        recipient_list = [user_email,]
+        send_mail(subject, message, from_email, recipient_list)
 
 
 class UserLoginView(LoginView):

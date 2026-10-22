@@ -28,6 +28,7 @@ class CustomUserCreationForm(StyleMixin, UserCreationForm):
             'class': 'form-control'
         })
     )
+    username = forms.CharField(required=False)
     email = forms.EmailField(
         required=True,
         help_text='Обязательно для регистрации'
@@ -71,6 +72,24 @@ class CustomUserCreationForm(StyleMixin, UserCreationForm):
 
         return cleaned
 
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        email = self.cleaned_data.get('email')
+
+        if not username and email:
+            return email
+        return username
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        # ГАРАНТИЯ: если вдруг username остался пустым, ставим email
+        if not user.username:
+            user.username = user.email
+
+        if commit:
+            user.save()
+        return user
+
 
 class CustomUserLoginForm(StyleMixin, AuthenticationForm):
     remember_me = forms.BooleanField(required=False, label="Запомнить меня")
@@ -78,8 +97,8 @@ class CustomUserLoginForm(StyleMixin, AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['username'].label = 'Логин или email'
-        self.fields['password'].label = 'Пароль'
+        self.fields['username'].label = '✅ Логин или email'
+        self.fields['password'].label = '✅ Пароль'
 
         self.fields['username'].widget.attrs.update({'placeholder': 'Логин или email'})
         self.fields['password'].widget.attrs.update({'placeholder': 'Пароль'})

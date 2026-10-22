@@ -12,6 +12,8 @@ class CustomUser(AbstractUser):
         blank=True,
         null=True
     )
+    username = models.CharField(max_length=150, unique=True, blank=False)
+
     email = models.EmailField('Ваш Email', unique=True, null=True)
     country = models.CharField(max_length=25, blank=True, null=True)
 

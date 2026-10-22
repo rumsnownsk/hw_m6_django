@@ -34,6 +34,7 @@
                                 <p>{{product.description}}</p>
                                 <a href="{% url 'catalog:product_detail' pk=product.pk %}" class="btn btn-outline-dark">Перейти</a>
                             </div>
+                            {% if user.is_authenticated %}
                             <div class="main-categories-card-actions d-flex align-items-center gap-3">
                                 <!-- Редактировать (нейтральный цвет) -->
                                 <a href="{% url 'catalog:product_update' pk=product.pk %}"
@@ -49,6 +50,8 @@
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </div>
+                            {% endif %}
+
                         </div>
 
 
