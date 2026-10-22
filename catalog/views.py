@@ -7,6 +7,7 @@ from catalog.models import Product, Category, Supplier
 from catalog.forms import ContactForm, ProductForm, SupplierForm
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView, UpdateView, DeleteView
+from .mixins import RedirectToHomeMixin
 
 
 class ProductListView(ListView):
@@ -19,15 +20,15 @@ class ProductListView(ListView):
         # если приходит slug из get-запроса
         slug = self.kwargs.get('slug')
         if slug:
-            category = get_object_or_404(Category, slug=slug)
-            return category.products.all()
+            self.category = get_object_or_404(Category, slug=slug)
+            return self.category.products.all()
+        self.category = None
         return super().get_queryset()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        slug = self.kwargs.get('slug')
-        if slug:
-            context['category'] = get_object_or_404(Category, slug=slug)
+        if self.category:
+            context['category'] = self.category
             context['all_products'] = False
         else:
             context['category'] = 'Все товары'
@@ -35,7 +36,7 @@ class ProductListView(ListView):
         return context
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(RedirectToHomeMixin, DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'  # в шаблоне будет переменная product, а не object
@@ -52,14 +53,14 @@ class ProductDetailView(DetailView):
         return Product.objects.get(pk=obj.pk)
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(RedirectToHomeMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:products_list')
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(RedirectToHomeMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
@@ -68,8 +69,7 @@ class ProductUpdateView(UpdateView):
         return reverse('catalog:product_detail', kwargs={'pk': self.object.pk})
 
 
-
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(RedirectToHomeMixin, DeleteView):
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:products_list')
