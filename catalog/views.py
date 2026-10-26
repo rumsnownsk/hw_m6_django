@@ -1,31 +1,34 @@
 from django.db.models import Model, F
+from django.forms import inlineformset_factory
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
-from catalog.models import Product, Category
-from catalog.forms import ContactForm
-from django.views.generic import ListView, DetailView, TemplateView, FormView
+from catalog.models import Product, Category, Supplier
+from catalog.forms import ContactForm, ProductForm, SupplierForm
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView, UpdateView, DeleteView
+from .mixins import RedirectToHomeMixin
 
 
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/products_list.html'
     context_object_name = 'products'
-    paginate_by = 4
+    # paginate_by = 4
 
     def get_queryset(self):
         # если приходит slug из get-запроса
         slug = self.kwargs.get('slug')
         if slug:
-            category = get_object_or_404(Category, slug=slug)
-            return category.products.all()
+            self.category = get_object_or_404(Category, slug=slug)
+            return self.category.products.all()
+        self.category = None
         return super().get_queryset()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        slug = self.kwargs.get('slug')
-        if slug:
-            context['category'] = get_object_or_404(Category, slug=slug)
+        if self.category:
+            context['category'] = self.category
             context['all_products'] = False
         else:
             context['category'] = 'Все товары'
@@ -33,7 +36,7 @@ class ProductListView(ListView):
         return context
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(RedirectToHomeMixin, DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'  # в шаблоне будет переменная product, а не object
@@ -48,6 +51,28 @@ class ProductDetailView(DetailView):
         # Важно: после update() значение в obj не обновится автоматически,
         # поэтому лучше взять свежий объект из базы.
         return Product.objects.get(pk=obj.pk)
+
+
+class ProductCreateView(RedirectToHomeMixin, CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:products_list')
+
+
+class ProductUpdateView(RedirectToHomeMixin, UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+
+    def get_success_url(self):
+        return reverse('catalog:product_detail', kwargs={'pk': self.object.pk})
+
+
+class ProductDeleteView(RedirectToHomeMixin, DeleteView):
+    model = Product
+    template_name = 'catalog/product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:products_list')
 
 class ContactView(FormView):
     template_name = 'catalog/contacts.html'

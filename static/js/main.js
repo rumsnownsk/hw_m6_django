@@ -1,63 +1,6 @@
 $(function () {
 
-    var swiperThumbs = new Swiper(".swiper-thumbs", {
-        spaceBetween: 10,
-        slidesPerView: 4,
-        freeMode: true,
-        watchSlidesProgress: true
-    });
 
-    var swiperGallery = new Swiper(".swiper-gallery", {
-        spaceBetween: 10,
-        slidesPerView: 1,
-        centeredSlides: true,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        thumbs: {
-            swiper: swiperThumbs,
-        },
-        breakpoints: {
-            320: {
-                slidesPerView: 1.5,
-                spaceBetween: 20
-            },
-            992: {
-                slidesPerView: 1,
-                spaceBetween: 10
-            },
-        }
-    });
-
-
-    let sliderRange = $('#slider-range');
-    if (sliderRange.length) {
-        let minPriceInput = $('#min-price');
-        let maxPriceInput = $('#max-price');
-        $("#slider-range").slider({
-            range: true,
-            min: minPrice,
-            max: maxPrice,
-            values: [minPrice, maxPrice],
-            slide: function (event, ui) {
-                minPriceInput.val(ui.values[0]);
-                maxPriceInput.val(ui.values[1]);
-            }
-        });
-
-        $('#min-price, #max-price').on('input', function () {
-            let minPriceRange = +minPriceInput.val();
-            let maxPriceRange = +maxPriceInput.val();
-            if (minPriceRange > maxPriceRange) {
-                minPriceRange = maxPriceRange;
-                minPriceInput.val(minPriceRange);
-            }
-            sliderRange.slider({
-                values: [minPriceRange, maxPriceRange]
-            });
-        });
-    }
 
     $('#search-form-btn').on('click', function (e) {
         e.preventDefault();
@@ -93,51 +36,7 @@ $(function () {
     }
 
 
-    const mainOlwProducts = $('.owl-carousel').owlCarousel({
-        // loop: true,
-        stagePadding: 30,
-        margin: 20,
-        nav: true,
-        dots: false,
-        responsive: {
-            0: {
-                items: 1
-            },
-            500: {
-                items: 2
-            },
-            700: {
-                items: 3
-            },
-            1000: {
-                items: 4
-            }
-        }
-    });
-
-    const mainOlwProductsNextBtn = $('.next-btn');
-    const mainOlwProductsPrevBtn = $('.prev-btn');
-
-    mainOlwProductsNextBtn.click(function () {
-        mainOlwProducts.trigger("next.owl.carousel");
-    });
-    mainOlwProductsPrevBtn.click(function () {
-        mainOlwProducts.trigger("prev.owl.carousel");
-    });
-
-    mainOlwProductsPrevBtn.addClass("disabled");
-    mainOlwProducts.on("translated.owl.carousel", function (event) {
-        if ($(".main-our-products .owl-prev").hasClass("disabled")) {
-            mainOlwProductsPrevBtn.addClass("disabled");
-        } else {
-            mainOlwProductsPrevBtn.removeClass("disabled");
-        }
-        if ($(".main-our-products .owl-next").hasClass("disabled")) {
-            mainOlwProductsNextBtn.addClass("disabled");
-        } else {
-            mainOlwProductsNextBtn.removeClass("disabled");
-        }
-    });
+  
 
     $(".phone-mask").mask("+3(999) 999-9999");
 

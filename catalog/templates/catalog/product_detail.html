@@ -3,17 +3,23 @@
 
 {% block content %}
 <main class="main category-page mt-5">
-    <div class="container">
-        <!--<nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
-                <li class="breadcrumb-item"><a href="category.html">Электронные замки</a></li>
-                <li class="breadcrumb-item"><a href="category.html">Замки для дома</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Какой-то замок</li>
-            </ol>
-        </nav>-->
+<div class="container d-flex justify-content-between align-items-center">
         <a href="{% url 'catalog:products_list' %}" class="btn btn-primary main-all-ategories">На главную</a>
+        <div class="main-categories-card-actions d-flex align-items-center gap-3">
+            <!-- Редактировать (нейтральный цвет) -->
+            <a href="{% url 'catalog:product_update' pk=product.pk %}"
+               class="text-dark text-decoration-none"
+               title="Редактировать">
+                <i class="fa-solid fa-edit"></i>
+            </a>
 
+            <!-- Удалить (красный цвет + отступ через gap у родителя) -->
+            <a href="{% url 'catalog:product_delete' pk=product.pk %}"
+               class="text-danger text-decoration-none"
+               title="Удалить">
+                <i class="fa-solid fa-trash-can"></i>
+            </a>
+        </div>
     </div>
 
     <div class="container mt-4 mb-4">
@@ -40,41 +46,41 @@
                     <div class="swiper-button-next"></div>
                 </div>
 
-<!--
-                <div class="swiper swiper-thumbs">
-                    <div class="swiper-wrapper">
+                <!--
+                                <div class="swiper swiper-thumbs">
+                                    <div class="swiper-wrapper">
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/products/1.jpg" alt="">
-                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="assets/img/products/1.jpg" alt="">
+                                        </div>
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/products/2.jpg" alt="">
-                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="assets/img/products/2.jpg" alt="">
+                                        </div>
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/products/3.jpg" alt="">
-                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="assets/img/products/3.jpg" alt="">
+                                        </div>
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/products/4.jpg" alt="">
-                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="assets/img/products/4.jpg" alt="">
+                                        </div>
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/products/5.jpg" alt="">
-                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="assets/img/products/5.jpg" alt="">
+                                        </div>
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/products/6.jpg" alt="">
-                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="assets/img/products/6.jpg" alt="">
+                                        </div>
 
-                        <div class="swiper-slide">
-                            <img src="assets/img/products/7.jpg" alt="">
-                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="assets/img/products/7.jpg" alt="">
+                                        </div>
 
-                    </div>
-                </div>
--->
+                                    </div>
+                                </div>
+                -->
 
             </div>
 
@@ -98,32 +104,32 @@
                 <div class="product-main-desc-color">
                     <p class="fs-5">Описание: {{product.description|truncatechars:100}}</p>
 
-<!--
-                    <div class="choose-color">
+                    <!--
+                                        <div class="choose-color">
 
-                        <label class="color-option">
-                            <input type="radio" name="color" value="white">
-                            <span class="color-switch color-white">
-                                        <span class="checkmark"><i class="fa-solid fa-check"></i></span>
-                                    </span>
-                        </label>
+                                            <label class="color-option">
+                                                <input type="radio" name="color" value="white">
+                                                <span class="color-switch color-white">
+                                                            <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+                                                        </span>
+                                            </label>
 
-                        <label class="color-option">
-                            <input type="radio" name="color" value="black">
-                            <span class="color-switch color-black">
-                                        <span class="checkmark"><i class="fa-solid fa-check"></i></span>
-                                    </span>
-                        </label>
+                                            <label class="color-option">
+                                                <input type="radio" name="color" value="black">
+                                                <span class="color-switch color-black">
+                                                            <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+                                                        </span>
+                                            </label>
 
-                        <label class="color-option">
-                            <input type="radio" name="color" value="yellow">
-                            <span class="color-switch color-yellow">
-                                        <span class="checkmark"><i class="fa-solid fa-check"></i></span>
-                                    </span>
-                        </label>
+                                            <label class="color-option">
+                                                <input type="radio" name="color" value="yellow">
+                                                <span class="color-switch color-yellow">
+                                                            <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+                                                        </span>
+                                            </label>
 
-                    </div>
--->
+                                        </div>
+                    -->
                 </div>
                 <div class="product-main-desc-color">
                     <p class="fs-5">Начало продажи: {{product.created_at|date:"d M Y"}}</p>

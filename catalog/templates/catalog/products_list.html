@@ -4,35 +4,60 @@
 {% block content %}
 
 <main class="main">
+
     <section class="main-categories">
 
         <div class="container">
-
+            {% if not all_products %}
+            <a href="{% url 'catalog:products_list' %}" class="btn btn-primary main-all-ategories">
+                ← Все товары</a>
+            {% endif %}
             <h2>{{category}}</h2>
 
-            <div class="row row-gap-4">
+
+            <div class="row row-gap-2">
                 {% for product in products %}
                 <div class="col-6">
                     <div class="main-categories-card">
                         <a href="{% url 'catalog:product_detail' product.pk %}">
                             <div class="main-categories-card-thumb">
-                        {% if product.photo %}
-                            <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="img-fluid w-100">
-                        {% else %}
-                            <img src="{% static 'images/no-photo.jpeg' %}" alt="Нет фото" class="img-fluid w-100">
-                        {% endif %}
+                                {% if product.photo %}
+                                <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="img-fluid w-100">
+                                {% else %}
+                                <img src="{% static 'images/no-photo.jpeg' %}" alt="Нет фото" class="img-fluid w-100">
+                                {% endif %}
                             </div>
                         </a>
+                        <div class="main-categories-card-footer">
+                            <div class="main-categories-card-desc">
+                                <h3>{{product.name}}</h3>
+                                <p>{{product.description}}</p>
+                                <a href="{% url 'catalog:product_detail' pk=product.pk %}" class="btn btn-outline-dark">Перейти</a>
+                            </div>
+                            {% if user.is_authenticated %}
+                            <div class="main-categories-card-actions d-flex align-items-center gap-3">
+                                <!-- Редактировать (нейтральный цвет) -->
+                                <a href="{% url 'catalog:product_update' pk=product.pk %}"
+                                   class="text-dark text-decoration-none"
+                                   title="Редактировать">
+                                    <i class="fa-solid fa-edit"></i>
+                                </a>
 
-                        <div class="main-categories-card-desc">
-                            <h3>{{product.name}}</h3>
-                            <p>{{product.description}}</p>
-                            <a href="{% url 'catalog:product_detail' pk=product.pk %}" class="btn btn-outline-dark">Перейти</a>
+                                <!-- Удалить (красный цвет + отступ через gap у родителя) -->
+                                <a href="{% url 'catalog:product_delete' pk=product.pk %}"
+                                   class="text-danger text-decoration-none"
+                                   title="Удалить">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </div>
+                            {% endif %}
+
                         </div>
+
+
                     </div>
                 </div>
                 {% endfor %}
-
 
 
             </div>
