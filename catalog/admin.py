@@ -7,7 +7,7 @@ from catalog.forms import ProductForm
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'photo_tag', 'name', 'price', 'category')
+    list_display = ('id', 'photo_tag', 'name', 'price', 'category', 'owner')
     # form = ProductForm
     list_filter = ('category',)
     search_fields = ('name', 'description')
@@ -15,7 +15,7 @@ class ProductAdmin(admin.ModelAdmin):
     def photo_tag(self, obj):
         if obj.photo:
             return format_html(
-                '<img src="{}" style="max-width: 100px; max-height: 100px;"/>',
+                '<img src="{}" style="max-width: 60px; max-height: 60px;"/>',
                 obj.photo.url
             )
         return "Нет фото"

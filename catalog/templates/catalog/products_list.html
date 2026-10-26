@@ -19,22 +19,34 @@
                 {% for product in products %}
                 <div class="col-6">
                     <div class="main-categories-card">
-                        <a href="{% url 'catalog:product_detail' product.pk %}">
-                            <div class="main-categories-card-thumb">
-                                {% if product.photo %}
-                                <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="img-fluid w-100">
-                                {% else %}
-                                <img src="{% static 'images/no-photo.jpeg' %}" alt="Нет фото" class="img-fluid w-100">
-                                {% endif %}
-                            </div>
-                        </a>
+                        {% if product.owner %}
+                        <p>Владелец: {{product.owner}}</p>
+                        {% endif %}
+
+                        <div class="main-categories-card-thumb">
+                            {% if product.photo %}
+                            <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="img-fluid w-100">
+                            {% else %}
+                            <img src="{% static 'images/no-photo.jpeg' %}" alt="Нет фото" class="img-fluid w-100">
+                            {% endif %}
+                        </div>
                         <div class="main-categories-card-footer">
                             <div class="main-categories-card-desc">
                                 <h3>{{product.name}}</h3>
                                 <p>{{product.description}}</p>
+                                {% if user.is_authenticated %}
                                 <a href="{% url 'catalog:product_detail' pk=product.pk %}" class="btn btn-outline-dark">Перейти</a>
+                                {% endif %}
                             </div>
-                            {% if user.is_authenticated %}
+
+                            {% comment %}
+                                Логика: показать кнопки, если:
+                                1) у пользователя есть право на удаление/редактирование (модератор),
+                                ИЛИ
+                                2) пользователь — владелец этого продукта
+                            {% endcomment %}
+
+                            {% if perms.catalog.can_unpublish_product or user == product.owner %}
                             <div class="main-categories-card-actions d-flex align-items-center gap-3">
                                 <!-- Редактировать (нейтральный цвет) -->
                                 <a href="{% url 'catalog:product_update' pk=product.pk %}"
@@ -53,7 +65,9 @@
                             {% endif %}
 
                         </div>
-
+                        <div class="publish_status">
+                            статус
+                        </div>
 
                     </div>
                 </div>
