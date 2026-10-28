@@ -198,3 +198,12 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 # SESSION_COOKIE_SECURE = False
 # CSRF_COOKIE_SECURE = False  # Пока разрабатываешь локально
 
+CACHE_ENABLED = os.getenv('CACHE', 'True') == 'True'
+
+if CACHE_ENABLED:
+    CACHES = {
+        'default':{
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': 'redis://127.0.0.1:6379/1'
+        }
+    }

@@ -26,7 +26,7 @@ class ProductForm(StyleMixin, ModelForm):
     class Meta:
         model = Product
         fields = "__all__"
-        exclude = ('views',)
+        exclude = ('views', 'owner')
 
     def clean_name(self):
         name = self.cleaned_data.get('name', '')
@@ -60,6 +60,21 @@ class ProductForm(StyleMixin, ModelForm):
             raise forms.ValidationError("Цена не может быть ниже нуля.")
 
         return price
+
+    # def save(self, commit=True, user=None):
+    #     instance = super().save(commit=False)
+    #     if user:
+    #         instance.owner = user
+    #     if commit:
+    #         instance.save()
+    #     return instance
+
+
+class ProductModeratorForm(StyleMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = ('is_published', 'supplier')
+
 
 
 class SupplierForm(ModelForm):

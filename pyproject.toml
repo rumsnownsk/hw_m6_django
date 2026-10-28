@@ -15,6 +15,7 @@ black = "^26.5.1"
 ipython = "^9.17.1"
 unidecode = "^1.4.0"
 transliterate = "^1.10.2"
+redis = "^8.1.0"
 
 
 [build-system]
