@@ -3,6 +3,8 @@ from decimal import Decimal
 
 from django.core.validators import FileExtensionValidator
 from django.utils.text import slugify
+from django.conf import settings
+
 from .utils import translit_image, validate_file_size
 from django.db import models
 
@@ -61,6 +63,16 @@ class Supplier(models.Model):
 
 
 class Product(models.Model):
+    STATUS_DRAFT = 'draft'
+    STATUS_PUBLISHED = 'published'
+    STATUS_ARCHIVED = 'archived'
+
+    STATUS_CHOICES = [
+        (STATUS_DRAFT, 'Черновик'),
+        (STATUS_PUBLISHED, 'Опубликован'),
+        (STATUS_ARCHIVED, 'В архиве'),
+    ]
+
     name = models.CharField(
         max_length=50,
         verbose_name="Наименование",
@@ -111,6 +123,26 @@ class Product(models.Model):
         verbose_name="Поставщик",
     )
 
+    # поле для статуса публикации
+    is_published = models.CharField(
+        choices=STATUS_CHOICES,
+        max_length=20,
+        default= STATUS_DRAFT,
+        verbose_name="Статус публикации",
+        help_text='Выберите статус продукта'
+    )
+
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='products',
+        verbose_name="Владелец",
+        help_text="Пользователь, создавший продукт",
+    )
+
+
     def __str__(self):
         return f"<{self.name}> из категории < {self.category} > "
 
@@ -143,7 +175,10 @@ class Product(models.Model):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ["price", "name"]
-
+        permissions = [
+            ("can_unpublish_product", "Может снимать продукт с публикации"),
+            ("can_publish_product", "Может публиковать продукт"),
+        ]
 
 
 
